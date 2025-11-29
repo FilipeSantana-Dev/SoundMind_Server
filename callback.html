@@ -15,6 +15,7 @@
             localStorage.setItem("spotify_token", token);
             window.location.href = "/chatbot/chat.html"; // Redireciona para o chat após login
         } else {
+            alert("Falha no login com o Spotify. Tente novamente.");
             window.location.href = "/chatbot/chat.html"; // Se não houver token, redireciona de volta
         }
     </script>
