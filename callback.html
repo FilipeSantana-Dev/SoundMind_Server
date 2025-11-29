@@ -7,16 +7,51 @@
 </head>
 <body>
     <script>
-        const hash = window.location.hash.substring(1);
-        const params = new URLSearchParams(hash);
-        const token = params.get("access_token");
+        // Pega o código de autorização da URL
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code');
+        const error = params.get('error');
 
-        if (token) {
-            localStorage.setItem("spotify_token", token);
-            window.location.href = "/chatbot/chat.html"; // Redireciona para o chat após login
-        } else {
-            alert("Falha no login com o Spotify. Tente novamente.");
-            window.location.href = "/chatbot/chat.html"; // Se não houver token, redireciona de volta
+        if (error) {
+            alert("Erro no login com o Spotify. Tente novamente.");
+            window.location.href = "/chatbot/chat.html"; // Redireciona de volta se houver erro
+            return;
+        }
+
+        if (code) {
+            // Troca o código de autorização pelo token de acesso
+            const client_id = "bb0e0bc9ddff42b782eca5a6957f22f6";
+            const client_secret = "631a6d311faf46e289006f4d9ce916f3";
+            const redirect_uri = "https://soundmind.vercel.app/callback.html";
+
+            // Faz uma solicitação POST para o backend para trocar o código por um token
+            fetch("https://soundmindapi.online/exchange-token", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    code: code,
+                    client_id: client_id,
+                    client_secret: client_secret,
+                    redirect_uri: redirect_uri
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const access_token = data.access_token;
+                if (access_token) {
+                    localStorage.setItem("spotify_token", access_token);
+                    window.location.href = "/chatbot/chat.html"; // Redireciona para o chat após login
+                } else {
+                    alert("Erro ao obter o token. Tente novamente.");
+                    window.location.href = "/chatbot/chat.html"; // Se não houver token, redireciona de volta
+                }
+            })
+            .catch(err => {
+                alert("Erro na troca do código pelo token.");
+                window.location.href = "/chatbot/chat.html";
+            });
         }
     </script>
 </body>
