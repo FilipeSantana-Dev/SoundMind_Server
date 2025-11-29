@@ -184,26 +184,3 @@ async function iniciarPlaybackQuandoPronto() {
     playerStatus.textContent = "erro ao iniciar playback";
   }
 }
-
-/* --------------------------- UI helpers --------------------------- */
-function updateCoverPlaying(playing) {
-  const wrap = document.querySelector(".player-cover-wrap");
-  if (!wrap) return;
-  if (playing) wrap.classList.add("playing");
-  else wrap.classList.remove("playing");
-}
-
-function updateUIEmpty() {
-  coverImg.src = "";
-  trackTitleEl.textContent = "Nenhuma faixa";
-  trackArtistEl.textContent = "—";
-  currentTimeEl.textContent = "0:00";
-  durationEl.textContent = "0:00";
-  seekBar.value = 0;
-}
-
-function fmt(ms) {
-  const minutes = Math.floor(ms / 60000);
-  const seconds = ((ms % 60000) / 1000).toFixed(0);
-  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-}
