@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SoundMind - Chat Musical</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="chat.css" />
+
+  <!-- Spotify Web Playback SDK -->
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
+
+  <!-- JS (defer para garantir que o DOM carregue) -->
+  <script src="chat.js" defer></script>
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- HEADER FIX -->
+    <header class="navbar">
+    <div class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Logo SoundMind" />
+      <h1>SoundMind</h1>
+      <span class="subtitle">Musicoterapia & Bem-estar</span>
+    </div>
+
+    <nav>
+      <ul>
+        <li><a href="../home/home.html">Home</a></li>
+        <li><a href="../chatbot/chat.html" class="active">Calm Chat</a></li>
+        <li><a href="../helpmind/helpmind.html">Help Mind</a></li>
+      </ul>
+    </nav>
+  </header>
+
+    <!-- GRID -->
+    <main class="main-grid">
+
+      <!-- CHAT COLUMN -->
+      <section class="chat-column">
+        <div class="player-intro">
+          <h2>Chat Musical</h2>
+          <p>Converse com a IA para descobrir músicas, playlists ou recomendações.</p>
+        </div>
+
+        <div class="chat-card">
+          <!-- area de mensagens -->
+          <div id="msgs" class="msgs" aria-live="polite"></div>
+
+          <!-- controles do chat -->
+          <div class="chat-controls">
+            <input id="texto" placeholder="Digite sua mensagem..." autocomplete="off" />
+            <button id="sendBtn">Enviar</button>
+            <button id="genBtn" class="gen-btn">Gerar Playlist</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PLAYER COLUMN -->
+      <aside class="player-column">
+
+        <div class="player-intro">
+          <h2>Player Musical</h2>
+          <p>Controle as músicas recomendadas pela IA em tempo real.</p>
+        </div>
+
+        <div class="player-card">
+          <div class="player-cover-wrap">
+            <img id="cover" class="player-cover" src="" alt="" />
+          </div>
+
+          <div class="track-info">
+            <div id="track-title" class="track-title">Nenhuma faixa</div>
+            <div id="track-artist" class="track-artist">—</div>
+          </div>
+
+          <div class="controls-row minimal">
+            <button id="prevBtn" class="ctrl">⏮</button>
+            <button id="playBtn" class="ctrl large">▶</button>
+            <button id="nextBtn" class="ctrl">⏭</button>
+          </div>
+
+          <div class="progress-row">
+            <span id="currentTime" class="time">0:00</span>
+            <input id="seekBar" type="range" min="0" max="100" value="0" />
+            <span id="duration" class="time">0:00</span>
+          </div>
+
+          <div class="bottom-row">
+            <div class="volume-inline">
+              <span class="vol-icon">🔊</span>
+              <input id="volumeBar" type="range" min="0" max="100" value="80" />
+            </div>
+
+            <div id="playerStatus" class="player-status">player desconectado</div>
+          </div>
+        </div>
+      </aside>
+
+    </main>
+  </div>
+</body>
+
+</html>

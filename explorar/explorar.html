@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SoundMind | Guia Informativo sobre Ansiedade</title>
+    <meta name="description" content="Página informativa responsiva sobre ansiedade com cards interativos, espaço para vídeos e textos educativos." />
+    <link rel="stylesheet" href="explorar.css" />
+  </head>
+  <body>
+
+    <!-- NAVBAR IGUAL À HOME -->
+    <header class="navbar">
+      <div class="logo">
+        <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Logo SoundMind" />
+        <h1>SoundMind</h1>
+        <span class="subtitle">Musicoterapia & Bem-estar</span>
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="../home/home.html">Home</a></li>
+          <li><a href="../chatbot/chat.html">Calm Chat</a></li>
+          <li><a href="../helpmind/helpmind.html">Help Mind</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-text">
+          <h2>Entenda a Ansiedade — Sinais, Estratégias e o Poder da Música</h2>
+          <p>Explore conteúdos educativos, vídeos e cards interativos sobre ansiedade e descubra como a musicoterapia pode ajudar no seu bem-estar emocional.</p>
+          <div class="actions">
+            <a class="btn" href="#videos">🎬 Assistir vídeos</a>
+            <a class="btn-secondary" href="#cards">📖 Explorar tópicos</a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="https://cdn-icons-png.flaticon.com/512/2920/2920066.png" alt="Pessoa relaxando ao som da música" />
+        </div>
+      </section>
+
+      <section id="cards" class="grid">
+        <article class="info-card" tabindex="0" aria-expanded="false">
+          <h3>🎧 Musicoterapia na Prática</h3>
+          <p>Descubra como o som influencia emoções e auxilia no relaxamento e na regulação emocional.</p>
+          <div class="more">
+            <p>Estudos mostram que músicas com ritmo lento, harmonia suave e repetições previsíveis ajudam a acalmar o sistema nervoso.</p>
+          </div>
+          <button class="toggle">Ver mais ▾</button>
+        </article>
+
+        <article class="info-card" tabindex="0" aria-expanded="false">
+          <h3>💬 Sinais de Ansiedade</h3>
+          <p>Entenda os principais sintomas físicos e mentais que indicam níveis elevados de ansiedade.</p>
+          <div class="more">
+            <ul>
+              <li>Preocupação excessiva e irritabilidade</li>
+              <li>Falta de concentração</li>
+              <li>Palpitações e falta de ar</li>
+            </ul>
+          </div>
+          <button class="toggle">Saiba mais ▾</button>
+        </article>
+
+        <article class="info-card" tabindex="0" aria-expanded="false">
+          <h3>🧘‍♀️ Técnicas de Relaxamento</h3>
+          <p>Aprenda exercícios simples de respiração e atenção plena.</p>
+          <div class="more">
+            <p>Experimente o padrão 4-4-8: inspire por 4 segundos, segure por 4 e expire por 8. Pratique com nossa playlist guiada.</p>
+          </div>
+          <button class="toggle">Praticar ▾</button>
+        </article>
+
+        <article class="info-card" tabindex="0" aria-expanded="false">
+          <h3>🤝 Quando Buscar Ajuda</h3>
+          <p>Reconheça o momento certo para procurar apoio profissional.</p>
+          <div class="more">
+            <p>Se os sintomas interferem nas suas relações ou rotina, procure um psicólogo ou psiquiatra. O SoundMind pode ajudar a encontrar centros de atendimento próximos.</p>
+          </div>
+          <button class="toggle">Ver recursos ▾</button>
+        </article>
+      </section>
+
+      <section id="videos" class="media">
+        <div class="video-content">
+          <h3>🎥 Vídeos e Aulas</h3>
+          <p>Assista a conteúdos sobre técnicas de relaxamento
+            .</p>
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/lFcSrYw-ARY" title="Vídeo sobre respiração e musicoterapia" allowfullscreen></iframe>
+          </div>
+        </div>
+        <aside class="article">
+          <h4>Leitura Rápida</h4>
+          <p>A ansiedade pode ser controlada com práticas regulares de autocuidado e suporte terapêutico. A música é uma ferramenta poderosa de equilíbrio emocional.</p>
+          <ul>
+            <li><a href="#">Guia de primeiros socorros emocionais</a></li>
+            <li><a href="#">Técnicas de respiração assistida</a></li>
+            <li><a href="../helpmind/helpmind.html">Encontre ajuda profissional</a></li>
+          </ul>
+        </aside>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2025 SoundMind — Projeto de TCC | Musicoterapia e Ansiedade</p>
+    </footer>
+
+    <script>
+      document.querySelectorAll('.info-card').forEach(card => {
+        const button = card.querySelector('.toggle');
+        button.addEventListener('click', () => {
+          const expanded = card.classList.toggle('expanded');
+          card.setAttribute('aria-expanded', expanded);
+          button.textContent = expanded ? 'Fechar ▴' : 'Ver mais ▾';
+        });
+      });
+    </script>
+  </body>
+</html>

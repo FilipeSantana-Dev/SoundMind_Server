@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help Mind | Apoio em Saúde Mental</title>
+
+  <link rel="stylesheet" href="helpmind.css" />
+
+  <script
+    async
+    defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7JqjZb4lw2H3Cl3tfJMmVHvRr-RhtAVI&libraries=places&callback=initMap">
+  </script>
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Logo SoundMind" />
+      <h1>SoundMind</h1>
+      <span class="subtitle">Musicoterapia & Bem-estar</span>
+    </div>
+
+    <nav>
+      <ul>
+        <li><a href="../home/home.html">Home</a></li>
+        <li><a href="../chatbot/chat.html">Calm Chat</a></li>
+        <li><a href="../helpmind/helpmind.html" class="active">Help Mind</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section class="search-section">
+      <h2>Encontre Apoio Próximo</h2>
+      <p>Busque CAPS, psicólogos, clínicas e hospitais especializados em saúde mental perto de você.</p>
+
+      <!-- Autocomplete -->
+      <input type="text" id="city-input" placeholder="Digite sua cidade (Ex.: São Paulo)" />
+
+      <select id="service-select">
+        <option value="hospitais psiquiatricos">Hospitais Psiquiátricos</option>
+        <option value="clinicas saude mental">Clínicas de Saúde Mental</option>
+        <option value="caps">CAPS (Centros de Atenção Psicossocial)</option>
+        <option value="emergencia psicologica">Emergência Psicológica 24h</option>
+      </select>
+
+      <!-- Filtros avançados -->
+      <div class="filters">
+        <div>
+          <label>Nota mínima:</label>
+          <select id="rating-filter">
+            <option value="">Qualquer</option>
+            <option value="3">3+ ⭐</option>
+            <option value="4">4+ ⭐</option>
+            <option value="4.5">4.5+ ⭐</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Distância:</label>
+          <select id="distance-filter">
+            <option value="3000">3 km</option>
+            <option value="5000" selected>5 km</option>
+            <option value="10000">10 km</option>
+            <option value="20000">20 km</option>
+          </select>
+        </div>
+
+        <label class="checkbox-label">
+          <input type="checkbox" id="open-now-filter" />
+          Aberto agora
+        </label>
+      </div>
+
+      <button id="search-button">Buscar no Mapa</button>
+    </section>
+
+    <!-- Mapa -->
+    <section class="map-container">
+      <div id="map"></div>
+    </section>
+
+    <!-- Lista -->
+    <section class="results hidden">
+      <h3>Instituições Encontradas</h3>
+      <div id="institutions-list"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 SoundMind — Projeto de TCC | Musicoterapia e Ansiedade</p>
+  </footer>
+
+  <script src="helpmind.js"></script>
+</body>
+</html>

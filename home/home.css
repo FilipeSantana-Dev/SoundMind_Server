@@ -1,0 +1,224 @@
+/* ===========================
+   Estilo principal - Serene Sounds
+   =========================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background-color: #f6f7f8;
+  color: #1a1a1a;
+  line-height: 1.6;
+}
+
+/* ---------- Header ---------- */
+.navbar {
+  position: sticky;
+  top: 0;
+  background: #ffffffcc;
+  backdrop-filter: blur(8px);
+  padding: 12px 40px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  width: 40px;
+  height: 40px;
+}
+
+.logo h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #007acc;
+}
+
+.logo .subtitle {
+  font-size: 0.85rem;
+  color: #555;
+  margin-left: 8px;
+  padding-left: 8px;
+  border-left: 1px solid #ccc;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+nav a:hover,
+nav a.active {
+  color: #007acc;
+}
+
+/* ---------- Hero Section ---------- */
+.hero {
+  position: relative;
+  background-image: url("https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&w=1400&q=80");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero .overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  padding: 20px;
+}
+
+.hero-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  font-weight: 800;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.btn {
+  background-color: #007acc;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background-color: #005fa3;
+}
+
+/* ---------- Info Section ---------- */
+.info {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #ffffff;
+}
+
+.info h2 {
+  color: #007acc;
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.info p {
+  max-width: 800px;
+  margin: 0 auto;
+  color: #333;
+  font-size: 1.05rem;
+}
+
+/* ---------- Symptoms Section ---------- */
+.symptoms {
+  padding: 60px 20px;
+  background-color: #f0f8ff;
+  text-align: center;
+}
+
+.symptoms h2 {
+  color: #007acc;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  padding: 20px 25px;
+  width: 220px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* ---------- Crisis Section ---------- */
+.crisis {
+  padding: 60px 20px;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.crisis h2 {
+  color: #007acc;
+  margin-bottom: 15px;
+  font-size: 2rem;
+}
+
+.crisis p {
+  max-width: 700px;
+  margin: 0 auto 25px;
+  color: #333;
+  font-size: 1.05rem;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #007acc;
+  border: 2px solid #007acc;
+  padding: 10px 25px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: #007acc;
+  color: white;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #f6f7f8;
+  border-top: 1px solid #e0e0e0;
+  font-size: 0.9rem;
+  color: #555;
+}
