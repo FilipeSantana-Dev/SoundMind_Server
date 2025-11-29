@@ -15,10 +15,7 @@
         if (error) {
             alert("Erro no login com o Spotify. Tente novamente.");
             window.location.href = "/chatbot/chat.html"; // Redireciona de volta se houver erro
-            return;
-        }
-
-        if (code) {
+        } else if (code) {
             // Troca o código de autorização pelo token de acesso
             const client_id = "bb0e0bc9ddff42b782eca5a6957f22f6";
             const client_secret = "631a6d311faf46e289006f4d9ce916f3";
