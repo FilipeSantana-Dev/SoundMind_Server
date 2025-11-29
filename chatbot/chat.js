@@ -1,8 +1,6 @@
 /* Chat + Spotify Web Playback SDK (Minimalista - lado a lado) */
 
-/* ---------------------------
-   ELEMENTS
-   --------------------------- */
+/* --------------------------- ELEMENTS --------------------------- */
 const msgs = document.getElementById("msgs");
 const input = document.getElementById("texto");
 const sendBtn = document.getElementById("sendBtn");
@@ -26,14 +24,10 @@ let isPlaying = false;
 let lastState = null;
 let progressInterval = null;
 
-/* ---------------------------
-   HISTÓRICO DO CHAT
-   --------------------------- */
+/* --------------------------- HISTÓRICO DO CHAT --------------------------- */
 let historico = [];
 
-/* ---------------------------
-   CHAT
-   --------------------------- */
+/* --------------------------- CHAT --------------------------- */
 sendBtn.addEventListener("click", enviar);
 input.addEventListener("keypress", (e) => { if (e.key === "Enter") enviar(); });
 
@@ -58,7 +52,7 @@ function enviar() {
 
   input.value = "";
 
-  fetch("http://35.215.213.83:5000/chat", {
+  fetch("https://soundmindapi.online/chat", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
     body: JSON.stringify({ historico })
@@ -79,11 +73,9 @@ function enviar() {
   });
 }
 
-/* ---------------------------
-   GERAR PLAYLIST (BOTÃO)
-   --------------------------- */
+/* --------------------------- GERAR PLAYLIST (BOTÃO) --------------------------- */
 function gerarPlaylistDireto() {
-  fetch("http://35.215.213.83:5000/gerar-playlist", {
+  fetch("https://soundmindapi.online/gerar-playlist", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
     body: JSON.stringify({ historico })
@@ -105,25 +97,10 @@ function gerarPlaylistDireto() {
   });
 }
 
-/* ---------------------------
-   UTIL - format time (ms -> M:SS)
-   --------------------------- */
-function fmt(ms){
-  if (!ms && ms !== 0) return "0:00";
-  const s = Math.floor(ms/1000);
-  const m = Math.floor(s/60);
-  const ss = String(s % 60).padStart(2,"0");
-  return `${m}:${ss}`;
-}
-
-/* ---------------------------
-   SDK INIT
-   --------------------------- */
+/* --------------------------- SDK INIT --------------------------- */
 window.onSpotifyWebPlaybackSDKReady = async () => {
   try {
-    const tokenRes = await fetch("http://35.215.213.83:5000/token");
-    const tokenJson = await tokenRes.json();
-    const token = tokenJson.token;
+    const token = localStorage.getItem("spotify_token"); // Pegando o token armazenado no localStorage
 
     if (!token) {
       playerStatus.textContent = "não autenticado";
@@ -188,9 +165,7 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
   }
 };
 
-/* ---------------------------
-   START PLAYBACK
-   --------------------------- */
+/* --------------------------- START PLAYBACK --------------------------- */
 async function iniciarPlaybackQuandoPronto() {
   if (!playlist_id_atual) return;
   if (!device_id) {
@@ -199,7 +174,7 @@ async function iniciarPlaybackQuandoPronto() {
   }
 
   try {
-    await fetch("http://35.215.213.83:5000/start-playback", {
+    await fetch("https://soundmindapi.online/start-playback", {
       method: "POST",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify({ device_id, playlist_id: playlist_id_atual })
@@ -210,9 +185,7 @@ async function iniciarPlaybackQuandoPronto() {
   }
 }
 
-/* ---------------------------
-   UI helpers
-   --------------------------- */
+/* --------------------------- UI helpers --------------------------- */
 function updateCoverPlaying(playing){
   const wrap = document.querySelector(".player-cover-wrap");
   if (!wrap) return;
@@ -228,63 +201,3 @@ function updateUIEmpty(){
   durationEl.textContent = "0:00";
   seekBar.value = 0;
 }
-
-/* ---------------------------
-   CONTROLES
-   --------------------------- */
-playBtn.addEventListener("click", async () => {
-  if (!player) return;
-  if (isPlaying) await player.pause();
-  else await player.resume();
-});
-
-prevBtn.addEventListener("click", async () => {
-  if (!player) return;
-  await player.previousTrack();
-});
-
-nextBtn.addEventListener("click", async () => {
-  if (!player) return;
-  await player.nextTrack();
-});
-
-/* ---------------------------
-   SEEK
-   --------------------------- */
-seekBar.addEventListener("input", (e) => {
-  if (!lastState) return;
-  const pct = Number(e.target.value);
-  const ms = (pct / 100) * lastState.duration;
-  currentTimeEl.textContent = fmt(ms);
-});
-
-seekBar.addEventListener("change", async (e) => {
-  if (!player || !lastState) return;
-  const pct = Number(e.target.value);
-  const ms = (pct / 100) * lastState.duration;
-  await player.seek(ms);
-});
-
-/* ---------------------------
-   VOLUME
-   --------------------------- */
-volumeBar.addEventListener("input", (e) => {
-  if (!player) return;
-  player.setVolume(Number(e.target.value) / 100);
-});
-
-/* ---------------------------
-   SYNC DE VOLUME
-   --------------------------- */
-setInterval(async () => {
-  if (!player) return;
-  try {
-    const vol = await player.getVolume();
-    const volPct = Math.round(vol * 100);
-    if (Number(volumeBar.value) !== volPct) {
-      volumeBar.value = volPct;
-    }
-  } catch {}
-}, 500);
-
-updateUIEmpty();
