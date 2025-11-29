@@ -108,7 +108,7 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
     }
 
     player = new Spotify.Player({
-      name: " SoundMind Player",
+      name: "SoundMind Player",
       getOAuthToken: cb => cb(token),
       volume: 0.8
     });
@@ -135,7 +135,7 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
       const track = state.track_window.current_track;
       coverImg.src = track.album.images[0]?.url || "";
       trackTitleEl.textContent = track.name || "—";
-      trackArtistEl.textContent = track.artists.map(a=>a.name).join(", ");
+      trackArtistEl.textContent = track.artists.map(a => a.name).join(", ");
 
       isPlaying = !state.paused;
       playBtn.innerHTML = isPlaying ? "⏸" : "▶";
@@ -186,18 +186,24 @@ async function iniciarPlaybackQuandoPronto() {
 }
 
 /* --------------------------- UI helpers --------------------------- */
-function updateCoverPlaying(playing){
+function updateCoverPlaying(playing) {
   const wrap = document.querySelector(".player-cover-wrap");
   if (!wrap) return;
   if (playing) wrap.classList.add("playing");
   else wrap.classList.remove("playing");
 }
 
-function updateUIEmpty(){
+function updateUIEmpty() {
   coverImg.src = "";
   trackTitleEl.textContent = "Nenhuma faixa";
   trackArtistEl.textContent = "—";
   currentTimeEl.textContent = "0:00";
   durationEl.textContent = "0:00";
   seekBar.value = 0;
+}
+
+function fmt(ms) {
+  const minutes = Math.floor(ms / 60000);
+  const seconds = ((ms % 60000) / 1000).toFixed(0);
+  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 }
