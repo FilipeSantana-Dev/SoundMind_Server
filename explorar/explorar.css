@@ -31,7 +31,7 @@ body {
   top: 0;
   background: #ffffffcc;
   backdrop-filter: blur(8px);
-  padding: 12px 40px; /* igual ao home */
+  padding: 8px 40px; /* igual ao home */
   border-bottom: 1px solid #ddd;
   display: flex;
   align-items: center;
