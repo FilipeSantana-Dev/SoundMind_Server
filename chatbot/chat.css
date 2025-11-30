@@ -107,24 +107,23 @@ nav a.active {
   border-radius: var(--radius);
   padding: 18px;
   box-shadow: var(--shadow);
-  height: 550px;
+  height: 550px; /* mantém exatamente a altura original */
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
+/* área das mensagens — mantém altura original e rola quando cheia */
 .msgs {
   flex: 1;
-  overflow: auto;
+  overflow-y: auto;
   background: #eef1f5;
   border-radius: 10px;
   padding: 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  height: 420px;
-  max-height: 100%0;
-  overflow-y: auto;
+  height: 420px; /* mantém a altura original */
 }
 
 .msg {
@@ -198,7 +197,6 @@ nav a.active {
   box-shadow: var(--shadow);
   width: 100%;
   min-height: 550px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -317,56 +315,30 @@ nav a.active {
   color: var(--muted);
 }
 
-/* ---------------- RESPONSIVO (APENAS LARGURA) ---------------- */
+/* ---------------- RESPONSIVO ---------------- */
 
 @media (max-width: 900px) {
 
-  /* Grid vira 1 coluna */
+  /* grid vira uma coluna */
   .main-grid {
     grid-template-columns: 1fr;
-    width: 100%;
+    gap: 25px;
   }
 
-  /* Chat ocupa largura total */
-  .chat-card {
-    width: 100%;
-    height: auto;
-  }
-
-  .msgs {
-    height: 350px;
-  }
-
-  /* Player ocupa largura completa vertical */
+  /* chat e player continuam com a altura original */
+  .chat-card,
   .player-card {
     width: 100%;
-    min-height: 480px;
-    flex-direction: column;  /* mantém igual ao desktop */
   }
 
+  /* mantém a capa grande no mobile */
   .player-cover-wrap {
-    width: 130px;
-    height: 130px;
+    width: 140px;
+    height: 140px;
   }
 }
 
-/* Para telas pequenas de verdade */
-@media (max-width: 480px) {
-
-  .chat-controls {
-    flex-direction: column;
-  }
-
-  .chat-controls button,
-  .gen-btn {
-    width: 100%;
-  }
-
-  .msgs {
-    height: 260px;
-  }
-}
-
+/* Botão de playlist */
 .gen-btn {
   padding: 12px 18px;
   background: #2ecc71;
@@ -391,9 +363,11 @@ nav a.active {
   text-decoration: none;
   font-weight: bold;
 }
+
 .btn-spotify:hover {
   background: #17a74a;
 }
+
 .btn-spotify.connected {
   background: #1ed760;
   cursor: default;
