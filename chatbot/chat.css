@@ -111,6 +111,9 @@ nav a.active {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+
+  /* 🔥 evita que fique largo demais */
+  width: 100%;
 }
 
 .msgs {
@@ -123,7 +126,6 @@ nav a.active {
   flex-direction: column;
   gap: 10px;
   height: 420px;
-  max-height: 100%0;
   overflow-y: auto;
 }
 
@@ -317,55 +319,49 @@ nav a.active {
   color: var(--muted);
 }
 
-/* ---------------- RESPONSIVO (APENAS LARGURA) ---------------- */
+/* ---------------- RESPONSIVO ---------------- */
 
 @media (max-width: 900px) {
 
-  /* Grid vira 1 coluna */
   .main-grid {
     grid-template-columns: 1fr;
-    width: 100%;
+    padding: 0 10px;         /* 🔥 reduz bordas laterais */
   }
 
-  /* Chat ocupa largura total */
-  .chat-card {
+  .chat-card,
+  .player-card {
     width: 100%;
-    height: auto;
   }
 
   .msgs {
     height: 350px;
   }
-
-  /* Player ocupa largura completa vertical */
-  .player-card {
-    width: 100%;
-    min-height: 480px;
-    flex-direction: column;  /* mantém igual ao desktop */
-  }
-
-  .player-cover-wrap {
-    width: 130px;
-    height: 130px;
-  }
 }
 
-/* Para telas pequenas de verdade */
 @media (max-width: 480px) {
 
-  .chat-controls {
-    flex-direction: column;
+  .main-grid {
+    padding: 0 6px;          /* 🔥 largura quase total */
   }
 
-  .chat-controls button,
-  .gen-btn {
-    width: 100%;
+  .chat-card {
+    padding: 14px;           /* reduz acolchoamento para caber */
   }
 
   .msgs {
     height: 260px;
   }
+
+  .chat-controls {
+    flex-direction: column;
+  }
+
+  .chat-controls button {
+    width: 100%;
+  }
 }
+
+/* ---------------- Buttons ---------------- */
 
 .gen-btn {
   padding: 12px 18px;
