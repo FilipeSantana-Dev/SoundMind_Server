@@ -317,32 +317,59 @@ nav a.active {
   color: var(--muted);
 }
 
-/* ---------------- RESPONSIVO ---------------- */
+/* ---------------- RESPONSIVO (APENAS LARGURA) ---------------- */
 
 @media (max-width: 900px) {
+
+  /* Grid vira 1 coluna */
   .main-grid {
     grid-template-columns: 1fr;
+    width: 100%;
   }
 
+  /* Chat ocupa largura total */
+  .chat-card {
+    width: 100%;
+    height: auto;
+  }
+
+  .msgs {
+    height: 350px;
+  }
+
+  /* Player ocupa largura completa vertical */
   .player-card {
-    min-height: 200px;
-    flex-direction: row;
-    gap: 20px;
+    width: 100%;
+    min-height: 480px;
+    flex-direction: column;  /* mantém igual ao desktop */
   }
 
   .player-cover-wrap {
-    width: 90px;
-    height: 90px;
-  }
-
-  .progress-row,
-  .bottom-row {
-    display: none;
+    width: 130px;
+    height: 130px;
   }
 }
+
+/* Para telas pequenas de verdade */
+@media (max-width: 480px) {
+
+  .chat-controls {
+    flex-direction: column;
+  }
+
+  .chat-controls button,
+  .gen-btn {
+    width: 100%;
+  }
+
+  .msgs {
+    height: 260px;
+  }
+}
+
 .gen-btn {
   padding: 12px 18px;
-  background: #2ecc71; /* verde */
+  background: #2ecc71;
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -354,6 +381,7 @@ nav a.active {
 .gen-btn:hover {
   background: #27ae60;
 }
+
 .btn-spotify {
   display: inline-block;
   padding: 10px 20px;
