@@ -21,7 +21,7 @@ body {
   top: 0;
   background: #ffffffcc;
   backdrop-filter: blur(8px);
-  padding: 8px 30px;
+  padding: 8px 20px;
   border-bottom: 1px solid #ddd;
   display: flex;
   align-items: center;
@@ -61,6 +61,7 @@ nav ul {
 
 nav a {
   color: #333;
+  align-items: center; 
   text-decoration: none;
   font-weight: 500;
   transition: 0.2s;
