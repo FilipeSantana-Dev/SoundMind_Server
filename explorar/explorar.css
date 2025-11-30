@@ -31,7 +31,7 @@ body {
   top: 0;
   background: #ffffffcc;
   backdrop-filter: blur(8px);
-  padding: 8px 40px; /* igual ao home */
+  padding: 8px 20px; /* igual ao home */
   border-bottom: 1px solid #ddd;
   display: flex;
   align-items: center;
@@ -64,6 +64,7 @@ body {
 }
 
 nav ul {
+  align-items: center; 
   list-style: none;
   display: flex;
   gap: 20px;
@@ -71,6 +72,7 @@ nav ul {
 
 nav a {
   color: #333;
+  align-items: center; 
   text-decoration: none;
   font-weight: 500;
   transition: 0.2s;
