@@ -364,4 +364,9 @@ nav a.active {
 .btn-spotify:hover {
   background: #17a74a;
 }
+.btn-spotify.connected {
+  background: #1ed760;
+  cursor: default;
+  pointer-events: none;
+}
 
