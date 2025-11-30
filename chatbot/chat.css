@@ -410,3 +410,28 @@ nav a.active {
   cursor: default;
   pointer-events: none;
 }
+/* ---------------- LARGURA AJUSTADA NO MOBILE ---------------- */
+
+@media (max-width: 900px) {
+
+  /* mantém 1 coluna, mas com largura controlada */
+  .main-grid {
+    grid-template-columns: 1fr;
+    justify-items: center; /* centraliza */
+  }
+
+  /* limita o tamanho dos cards para não ficarem largos demais */
+  .chat-card,
+  .player-card {
+    width: 92%;       /* largura agradável no mobile */
+    max-width: 500px; /* evita ficar gigante */
+  }
+
+  /* mantém altura original e scroll normal */
+  .msgs {
+    height: 420px;  /* mesmo valor do desktop */
+    max-height: 420px;
+    overflow-y: auto;
+  }
+}
+
