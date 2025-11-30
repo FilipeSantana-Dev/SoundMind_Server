@@ -59,7 +59,7 @@ body {
 }
 
 nav ul {
-  align-items: center;
+  align-items: center; 
   list-style: none;
   display: flex;
   gap: 20px;
@@ -67,7 +67,7 @@ nav ul {
 
 nav a {
   color: #333;
-  align-items: center;
+  align-items: center; 
   text-decoration: none;
   font-weight: 500;
   transition: 0.2s;
@@ -123,7 +123,7 @@ nav a.active {
   flex-direction: column;
   gap: 10px;
   height: 420px;
-  max-height: 100%;
+  max-height: 100%0;
   overflow-y: auto;
 }
 
@@ -317,100 +317,32 @@ nav a.active {
   color: var(--muted);
 }
 
-/* ---------------- RESPONSIVO CORRIGIDO ---------------- */
+/* ---------------- RESPONSIVO ---------------- */
 
 @media (max-width: 900px) {
-
   .main-grid {
     grid-template-columns: 1fr;
-    gap: 15px;
-    padding: 0 12px;
-  }
-
-  .navbar {
-    flex-direction: column;
-    gap: 8px;
-    text-align: center;
-  }
-
-  nav ul {
-    gap: 12px;
-    font-size: 0.9rem;
-  }
-
-  .chat-card {
-    height: auto;
-    max-height: none;
-  }
-
-  .msgs {
-    height: 300px;
   }
 
   .player-card {
-    min-height: auto;
-    width: 100%;
-    padding: 18px;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
+    min-height: 200px;
+    flex-direction: row;
+    gap: 20px;
   }
 
   .player-cover-wrap {
-    width: 120px;
-    height: 120px;
-  }
-
-  .track-title {
-    font-size: 16px;
-  }
-
-  .track-artist {
-    font-size: 13px;
+    width: 90px;
+    height: 90px;
   }
 
   .progress-row,
   .bottom-row {
     display: none;
   }
-
-  .controls-row {
-    gap: 25px;
-  }
-
-  .ctrl.large {
-    font-size: 36px;
-  }
 }
-
-/* Telas muito pequenas */
-@media (max-width: 480px) {
-
-  .msgs {
-    height: 240px;
-  }
-
-  .chat-controls {
-    flex-direction: column;
-  }
-
-  .chat-controls button {
-    width: 100%;
-  }
-
-  .gen-btn {
-    width: 100%;
-  }
-
-  .navbar h1 {
-    font-size: 1.2rem;
-  }
-}
-
-/* Botões extras */
 .gen-btn {
   padding: 12px 18px;
-  background: #2ecc71;
+  background: #2ecc71; /* verde */
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -422,7 +354,6 @@ nav a.active {
 .gen-btn:hover {
   background: #27ae60;
 }
-
 .btn-spotify {
   display: inline-block;
   padding: 10px 20px;
@@ -432,11 +363,9 @@ nav a.active {
   text-decoration: none;
   font-weight: bold;
 }
-
 .btn-spotify:hover {
   background: #17a74a;
 }
-
 .btn-spotify.connected {
   background: #1ed760;
   cursor: default;
