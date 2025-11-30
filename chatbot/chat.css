@@ -31,7 +31,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 99;
 }
 
 .logo {
@@ -60,7 +59,7 @@ body {
 }
 
 nav ul {
-  align-items: center; 
+  align-items: center;
   list-style: none;
   display: flex;
   gap: 20px;
@@ -68,7 +67,7 @@ nav ul {
 
 nav a {
   color: #333;
-  align-items: center; 
+  align-items: center;
   text-decoration: none;
   font-weight: 500;
   transition: 0.2s;
@@ -124,6 +123,7 @@ nav a.active {
   flex-direction: column;
   gap: 10px;
   height: 420px;
+  max-height: 100%;
   overflow-y: auto;
 }
 
@@ -317,44 +317,7 @@ nav a.active {
   color: var(--muted);
 }
 
-/* ---------------- BUTTONS ---------------- */
-
-.gen-btn {
-  padding: 12px 18px;
-  background: #2ecc71;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.gen-btn:hover {
-  background: #27ae60;
-}
-
-.btn-spotify {
-  display: inline-block;
-  padding: 10px 20px;
-  background: #1db954;
-  color: white;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.btn-spotify:hover {
-  background: #17a74a;
-}
-
-.btn-spotify.connected {
-  background: #1ed760;
-  cursor: default;
-  pointer-events: none;
-}
-
-/* ---------------- RESPONSIVO COMPLETO ---------------- */
+/* ---------------- RESPONSIVO CORRIGIDO ---------------- */
 
 @media (max-width: 900px) {
 
@@ -420,6 +383,7 @@ nav a.active {
   }
 }
 
+/* Telas muito pequenas */
 @media (max-width: 480px) {
 
   .msgs {
@@ -441,4 +405,40 @@ nav a.active {
   .navbar h1 {
     font-size: 1.2rem;
   }
+}
+
+/* Botões extras */
+.gen-btn {
+  padding: 12px 18px;
+  background: #2ecc71;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.gen-btn:hover {
+  background: #27ae60;
+}
+
+.btn-spotify {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #1db954;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn-spotify:hover {
+  background: #17a74a;
+}
+
+.btn-spotify.connected {
+  background: #1ed760;
+  cursor: default;
+  pointer-events: none;
 }
