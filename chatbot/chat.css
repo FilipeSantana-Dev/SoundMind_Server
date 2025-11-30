@@ -59,7 +59,7 @@ body {
 }
 
 nav ul {
-  align-items: center;
+  align-items: center; 
   list-style: none;
   display: flex;
   gap: 20px;
@@ -67,7 +67,7 @@ nav ul {
 
 nav a {
   color: #333;
-  align-items: center;
+  align-items: center; 
   text-decoration: none;
   font-weight: 500;
   transition: 0.2s;
@@ -93,12 +93,21 @@ nav a.active {
 
 /* ---------------- CHAT ---------------- */
 
+.intro h2 {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.intro p {
+  color: var(--muted);
+}
+
 .chat-card {
   background: var(--card);
   border-radius: var(--radius);
   padding: 18px;
   box-shadow: var(--shadow);
-  height: 550px; /* altura original */
+  height: 550px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -106,14 +115,16 @@ nav a.active {
 
 .msgs {
   flex: 1;
-  overflow-y: auto;
+  overflow: auto;
   background: #eef1f5;
   border-radius: 10px;
   padding: 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  height: 420px; /* altura original */
+  height: 420px;
+  max-height: 100%0;
+  overflow-y: auto;
 }
 
 .msg {
@@ -186,7 +197,7 @@ nav a.active {
   padding: 22px;
   box-shadow: var(--shadow);
   width: 100%;
-  min-height: 550px; /* altura original */
+  min-height: 550px;
 
   display: flex;
   flex-direction: column;
@@ -306,73 +317,53 @@ nav a.active {
   color: var(--muted);
 }
 
-/* ---------------- RESPONSIVO AJUSTADO ---------------- */
+/* ---------------- RESPONSIVO (APENAS LARGURA) ---------------- */
 
 @media (max-width: 900px) {
 
-  /* grid vira uma coluna, mas com largura real de celular */
+  /* Grid vira 1 coluna */
   .main-grid {
     grid-template-columns: 1fr;
-    max-width: 500px;       /* largura máxima confortável */
     width: 100%;
-    margin: 0 auto;         /* centraliza no mobile */
-    padding: 0 14px;        /* evita ficar largo demais */
-    gap: 18px;
   }
 
-  /* CHAT — mantém a mesma altura original */
+  /* Chat ocupa largura total */
   .chat-card {
-    height: 550px;          /* altura original do desktop */
     width: 100%;
+    height: auto;
   }
 
   .msgs {
-    height: 420px;          /* altura original */
-    overflow-y: auto;       /* rola conforme enche */
+    height: 350px;
   }
 
-  /* PLAYER — mantém altura original */
+  /* Player ocupa largura completa vertical */
   .player-card {
-    min-height: 550px;
     width: 100%;
-    padding: 20px;
+    min-height: 480px;
+    flex-direction: column;  /* mantém igual ao desktop */
   }
 
   .player-cover-wrap {
     width: 130px;
     height: 130px;
   }
-
-  /* controles simplificados no mobile */
-  .progress-row,
-  .bottom-row {
-    display: none;
-  }
 }
 
-/* telas muito pequenas */
+/* Para telas pequenas de verdade */
 @media (max-width: 480px) {
 
-  .main-grid {
-    max-width: 420px;
-    padding: 0 10px;
+  .chat-controls {
+    flex-direction: column;
   }
 
-  .chat-card {
-    height: 550px;
+  .chat-controls button,
+  .gen-btn {
+    width: 100%;
   }
-  
+
   .msgs {
-    height: 420px;
-  }
-
-  .player-card {
-    min-height: 550px;
-  }
-
-  .player-cover-wrap {
-    width: 110px;
-    height: 110px;
+    height: 260px;
   }
 }
 
@@ -400,38 +391,11 @@ nav a.active {
   text-decoration: none;
   font-weight: bold;
 }
-
 .btn-spotify:hover {
   background: #17a74a;
 }
-
 .btn-spotify.connected {
   background: #1ed760;
   cursor: default;
   pointer-events: none;
 }
-/* ---------------- LARGURA AJUSTADA NO MOBILE ---------------- */
-
-@media (max-width: 900px) {
-
-  /* mantém 1 coluna, mas com largura controlada */
-  .main-grid {
-    grid-template-columns: 1fr;
-    justify-items: center; /* centraliza */
-  }
-
-  /* limita o tamanho dos cards para não ficarem largos demais */
-  .chat-card,
-  .player-card {
-    width: 92%;       /* largura agradável no mobile */
-    max-width: 500px; /* evita ficar gigante */
-  }
-
-  /* mantém altura original e scroll normal */
-  .msgs {
-    height: 420px;  /* mesmo valor do desktop */
-    max-height: 420px;
-    overflow-y: auto;
-  }
-}
-
