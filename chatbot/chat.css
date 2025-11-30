@@ -306,42 +306,73 @@ nav a.active {
   color: var(--muted);
 }
 
-/* ---------------- RESPONSIVO ---------------- */
+/* ---------------- RESPONSIVO AJUSTADO ---------------- */
 
 @media (max-width: 900px) {
 
+  /* grid vira uma coluna, mas com largura real de celular */
   .main-grid {
     grid-template-columns: 1fr;
-    padding: 0 14px;
+    max-width: 500px;       /* largura máxima confortável */
+    width: 100%;
+    margin: 0 auto;         /* centraliza no mobile */
+    padding: 0 14px;        /* evita ficar largo demais */
+    gap: 18px;
   }
 
-  /* Mantém altura original */
-  .chat-card,
+  /* CHAT — mantém a mesma altura original */
+  .chat-card {
+    height: 550px;          /* altura original do desktop */
+    width: 100%;
+  }
+
+  .msgs {
+    height: 420px;          /* altura original */
+    overflow-y: auto;       /* rola conforme enche */
+  }
+
+  /* PLAYER — mantém altura original */
   .player-card {
-    height: 550px;
     min-height: 550px;
-  }
-
-  /* Corrige largura exagerada */
-  .chat-card,
-  .player-card {
-    width: 95%;
-    margin: 0 auto;
-  }
-
-  .player-card {
-    flex-direction: column;
-    gap: 16px;
+    width: 100%;
+    padding: 20px;
   }
 
   .player-cover-wrap {
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
   }
 
+  /* controles simplificados no mobile */
   .progress-row,
   .bottom-row {
     display: none;
+  }
+}
+
+/* telas muito pequenas */
+@media (max-width: 480px) {
+
+  .main-grid {
+    max-width: 420px;
+    padding: 0 10px;
+  }
+
+  .chat-card {
+    height: 550px;
+  }
+  
+  .msgs {
+    height: 420px;
+  }
+
+  .player-card {
+    min-height: 550px;
+  }
+
+  .player-cover-wrap {
+    width: 110px;
+    height: 110px;
   }
 }
 
