@@ -1,4 +1,4 @@
-/* chat.js - SoundMind (corrigido) */
+/* chat.js - SoundMind (atualizado para trocar botão de login Spotify) */
 
 /* --------------------------- CONFIG --------------------------- */
 const CLIENT_ID = "bb0e0bc9ddff42b782eca5a6957f22f6";
@@ -20,6 +20,7 @@ const currentTimeEl = document.getElementById("currentTime");
 const durationEl = document.getElementById("duration");
 const volumeBar = document.getElementById("volumeBar");
 const playerStatus = document.getElementById("playerStatus");
+const loginBtn = document.getElementById("spotifyLoginBtn");
 
 let player = null;
 let device_id = null;
@@ -41,14 +42,10 @@ function fmt(ms) {
 }
 
 function updateCoverPlaying(isPlayingFlag) {
-  // simples animação/indicação visual
   const el = document.getElementById("cover");
   if (!el) return;
-  if (isPlayingFlag) {
-    el.classList.add("playing");
-  } else {
-    el.classList.remove("playing");
-  }
+  if (isPlayingFlag) el.classList.add("playing");
+  else el.classList.remove("playing");
 }
 
 function updateUIEmpty() {
@@ -59,9 +56,8 @@ function updateUIEmpty() {
   playerStatus.textContent = "player desconectado";
 }
 
-/* --------------------------- TOKEN MANAGEMENT (front-side refresh) --------------------------- */
+/* --------------------------- TOKEN MANAGEMENT --------------------------- */
 async function refreshAccessToken() {
-  // tenta usar refresh_token salvo no localStorage
   const refresh_token = localStorage.getItem("spotify_refresh");
   if (!refresh_token) return null;
 
@@ -80,7 +76,6 @@ async function refreshAccessToken() {
 
     if (!res.ok) {
       console.warn("Falha ao renovar token:", await res.text());
-      // limpamos tokens para forçar novo login se algo der errado
       localStorage.removeItem("spotify_token");
       localStorage.removeItem("spotify_refresh");
       localStorage.removeItem("spotify_expires");
@@ -93,12 +88,12 @@ async function refreshAccessToken() {
       const expires = (data.expires_in || 3600) * 1000;
       localStorage.setItem("spotify_expires", Date.now() + expires);
       if (data.refresh_token) {
-        // Spotify pode enviar novo refresh token em alguns fluxos
         localStorage.setItem("spotify_refresh", data.refresh_token);
       }
       return data.access_token;
     }
     return null;
+
   } catch (err) {
     console.error("Erro ao renovar token", err);
     return null;
@@ -109,22 +104,19 @@ async function getValidAccessToken() {
   let token = localStorage.getItem("spotify_token");
   const expires = Number(localStorage.getItem("spotify_expires") || 0);
 
-  // Se faltando ou vai expirar em menos de 60s -> renovar
   if (!token || Date.now() + 60_000 > expires) {
     const refreshed = await refreshAccessToken();
-    if (refreshed) {
-      token = refreshed;
-    } else {
-      // sem token válido
-      return null;
-    }
+    if (refreshed) token = refreshed;
+    else return null;
   }
   return token;
 }
 
 /* --------------------------- CHAT --------------------------- */
 sendBtn.addEventListener("click", enviar);
-input.addEventListener("keypress", (e) => { if (e.key === "Enter") enviar(); });
+input.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") enviar();
+});
 
 const genBtn = document.getElementById("genBtn");
 genBtn.addEventListener("click", gerarPlaylistDireto);
@@ -169,7 +161,7 @@ function enviar() {
 
 /* --------------------------- GERAR PLAYLIST (BOTÃO) --------------------------- */
 function gerarPlaylistDireto() {
-  const spotify_token = localStorage.getItem("spotify_token"); // token do usuário
+  const spotify_token = localStorage.getItem("spotify_token");
   fetch("https://soundmindapi.online/gerar-playlist", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
@@ -183,8 +175,6 @@ function gerarPlaylistDireto() {
     if (data.playlist) {
       playlist_id_atual = data.playlist;
       iniciarPlaybackQuandoPronto();
-    } else if (data.tracks_preview) {
-      console.log("Preview tracks:", data.tracks_preview);
     }
   })
   .catch(err => {
@@ -196,38 +186,36 @@ function gerarPlaylistDireto() {
 /* --------------------------- SDK INIT --------------------------- */
 window.onSpotifyWebPlaybackSDKReady = async () => {
   try {
-    // Antes de criar o player, garante token válido
     const token = await getValidAccessToken();
     if (!token) {
       playerStatus.textContent = "não autenticado";
+      resetLoginButton();
       return;
     }
+
+    updateLoginButtonConnected();
 
     player = new Spotify.Player({
       name: "SoundMind Player",
       getOAuthToken: async cb => {
-        // Sempre forneça um token válido ao SDK (renova se necessário)
         const t = await getValidAccessToken();
-        if (!t) {
-          console.warn("Sem token válido para SDK. Peça novo login.");
-          cb(null);
-          return;
-        }
-        cb(t);
+        cb(t || "");
       },
       volume: 0.8
     });
 
     player.addListener("ready", async ({ device_id: id }) => {
       device_id = id;
+
       playerStatus.textContent = "conectado";
+      updateLoginButtonConnected();
+
       console.log("Player pronto, device_id =", device_id);
 
-      // Ativar player como device ativo para evitar Widevine 403
       const access_token = await getValidAccessToken();
       if (!access_token) {
-        console.warn("Não há token para ativar device. Faça login novamente.");
         playerStatus.textContent = "não autenticado";
+        resetLoginButton();
         return;
       }
 
@@ -243,14 +231,15 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
             play: false
           })
         });
-        console.log("Device ativado com sucesso.");
+        console.log("Device ativado.");
       } catch (err) {
         console.warn("Falha ao ativar device:", err);
       }
     });
 
-    player.addListener("not_ready", ({ device_id }) => {
+    player.addListener("not_ready", () => {
       playerStatus.textContent = "desconectado";
+      resetLoginButton();
     });
 
     player.addListener("player_state_changed", state => {
@@ -290,15 +279,11 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
       }, 1000);
     });
 
-    // controles básicos
     playBtn.addEventListener("click", async () => {
       if (!player) return;
       try {
-        if (isPlaying) {
-          await player.pause();
-        } else {
-          await player.resume();
-        }
+        if (isPlaying) await player.pause();
+        else await player.resume();
       } catch (e) { console.error(e); }
     });
 
@@ -309,13 +294,14 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
   } catch (err) {
     console.error(err);
     playerStatus.textContent = "erro";
+    resetLoginButton();
   }
 };
 
 /* --------------------------- START PLAYBACK --------------------------- */
 async function iniciarPlaybackQuandoPronto() {
   if (!playlist_id_atual) return;
-  // espera device_id
+
   if (!device_id) {
     setTimeout(iniciarPlaybackQuandoPronto, 600);
     return;
@@ -328,7 +314,6 @@ async function iniciarPlaybackQuandoPronto() {
       return;
     }
 
-    // Ao iniciar a reprodução, garanta que 'play' esteja true para controlar a fila
     await fetch("https://api.spotify.com/v1/me/player/play?device_id=" + device_id, {
       method: "PUT",
       headers: {
@@ -345,4 +330,21 @@ async function iniciarPlaybackQuandoPronto() {
     console.error("Erro ao iniciar playback:", err);
     playerStatus.textContent = "erro ao iniciar playback";
   }
+}
+
+/* --------------------------- LOGIN BUTTON HANDLER --------------------------- */
+function updateLoginButtonConnected() {
+  if (!loginBtn) return;
+  loginBtn.textContent = "Conectado ao Spotify";
+  loginBtn.classList.add("connected");
+  loginBtn.style.pointerEvents = "none";
+  loginBtn.removeAttribute("onclick");
+}
+
+function resetLoginButton() {
+  if (!loginBtn) return;
+  loginBtn.textContent = "Login com Spotify";
+  loginBtn.classList.remove("connected");
+  loginBtn.style.pointerEvents = "auto";
+  loginBtn.setAttribute("onclick", "loginSpotify()");
 }
