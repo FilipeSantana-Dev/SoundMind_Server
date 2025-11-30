@@ -25,7 +25,10 @@ async function loginSpotify() {
     "user-read-playback-state",
     "user-modify-playback-state",
     "playlist-modify-private",
-    "playlist-modify-public"
+    "playlist-modify-public",
+    "streaming",
+    "user-read-private",
+    "user-read-email"
   ].join(" ");
 
   const verifier = await generateCodeVerifier();
