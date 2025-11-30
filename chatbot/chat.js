@@ -75,20 +75,22 @@ function enviar() {
 
 /* --------------------------- GERAR PLAYLIST (BOTÃO) --------------------------- */
 function gerarPlaylistDireto() {
+  const spotify_token = localStorage.getItem("spotify_token"); // token do usuário
   fetch("https://soundmindapi.online/gerar-playlist", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ historico })
+    body: JSON.stringify({ historico, spotify_token })
   })
   .then(res => res.json())
   .then(data => {
-
     adicionarMensagem(data.resposta || "Sem resposta", "bot");
     historico.push({ role: "bot", content: data.resposta });
 
     if (data.playlist) {
       playlist_id_atual = data.playlist;
       iniciarPlaybackQuandoPronto();
+    } else if (data.tracks_preview) {
+      console.log("Preview tracks:", data.tracks_preview);
     }
   })
   .catch(err => {
@@ -174,13 +176,14 @@ async function iniciarPlaybackQuandoPronto() {
   }
 
   try {
+    const spotify_token = localStorage.getItem("spotify_token");
     await fetch("https://soundmindapi.online/start-playback", {
       method: "POST",
       headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ device_id, playlist_id: playlist_id_atual })
+      body: JSON.stringify({ device_id, playlist_id: playlist_id_atual, spotify_token })
     });
     playerStatus.textContent = "tocando playlist";
-  } catch {
+  } catch (err) {
     playerStatus.textContent = "erro ao iniciar playback";
   }
 }
