@@ -1,55 +1,87 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotify Login Callback</title>
+  <meta charset="UTF-8" />
+  <title>Spotify Callback</title>
+
+  <script>
+    async function base64urlencode(str) {
+      return btoa(String.fromCharCode.apply(null, new Uint8Array(str)))
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_")
+        .replace(/=+$/, "");
+    }
+
+    async function generateCodeVerifier() {
+      const array = new Uint8Array(64);
+      crypto.getRandomValues(array);
+      return base64urlencode(array);
+    }
+
+    async function generateCodeChallenge(verifier) {
+      const data = new TextEncoder().encode(verifier);
+      const digest = await crypto.subtle.digest("SHA-256", data);
+      return base64urlencode(digest);
+    }
+
+    async function exchangeCodeForToken(code, verifier) {
+      const body = new URLSearchParams({
+        grant_type: "authorization_code",
+        code,
+        redirect_uri: "https://soundmind.vercel.app/callback.html",
+        client_id: "bb0e0bc9ddff42b782eca5a6957f22f6",
+        code_verifier: verifier
+      });
+
+      const res = await fetch("https://accounts.spotify.com/api/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body
+      });
+
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error("Erro ao trocar código:", errText);
+        alert("Erro ao autenticar com Spotify.");
+        return null;
+      }
+
+      return await res.json();
+    }
+
+    async function main() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get("code");
+
+      if (!code) {
+        alert("Nenhum código presente na URL.");
+        return;
+      }
+
+      const verifier = localStorage.getItem("spotify_code_verifier");
+      if (!verifier) {
+        alert("Code verifier perdido.");
+        return;
+      }
+
+      const data = await exchangeCodeForToken(code, verifier);
+      if (!data) return;
+
+      localStorage.setItem("spotify_token", data.access_token);
+      localStorage.setItem("spotify_refresh", data.refresh_token);
+      localStorage.setItem("spotify_expires", Date.now() + data.expires_in * 1000);
+
+      // limpar o verifier
+      localStorage.removeItem("spotify_code_verifier");
+
+      // enviar de volta para o app
+      window.location.href = "https://soundmind.vercel.app/?login=spotify_ok";
+    }
+
+    main();
+  </script>
 </head>
 <body>
-    <script>
-        // Pega o código de autorização da URL
-        const params = new URLSearchParams(window.location.search);
-        const code = params.get('code');
-        const error = params.get('error');
-
-        if (error) {
-            alert("Erro no login com o Spotify. Tente novamente.");
-            window.location.href = "/chatbot/chat.html"; // Redireciona de volta se houver erro
-        } else if (code) {
-            // Troca o código de autorização pelo token de acesso
-            const client_id = "bb0e0bc9ddff42b782eca5a6957f22f6";
-            const client_secret = "631a6d311faf46e289006f4d9ce916f3";
-            const redirect_uri = "https://soundmind.vercel.app/callback.html";
-
-            // Faz uma solicitação POST para o backend para trocar o código por um token
-            fetch("https://soundmindapi.online/exchange-token", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    code: code,
-                    client_id: client_id,
-                    client_secret: client_secret,
-                    redirect_uri: redirect_uri
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                const access_token = data.access_token;
-                if (access_token) {
-                    localStorage.setItem("spotify_token", access_token);
-                    window.location.href = "/chatbot/chat.html"; // Redireciona para o chat após login
-                } else {
-                    alert("Erro ao obter o token. Tente novamente.");
-                    window.location.href = "/chatbot/chat.html"; // Se não houver token, redireciona de volta
-                }
-            })
-            .catch(err => {
-                alert("Erro na troca do código pelo token.");
-                window.location.href = "/chatbot/chat.html";
-            });
-        }
-    </script>
+  Processando login do Spotify...
 </body>
 </html>
