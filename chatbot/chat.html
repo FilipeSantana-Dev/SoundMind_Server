@@ -11,7 +11,7 @@
 
   <!-- Spotify Web Playback SDK -->
   <script src="https://sdk.scdn.co/spotify-player.js"></script>
-
+  <script src="login.js" defer></script>
   <!-- JS (defer para garantir que o DOM carregue) -->
   <script src="chat.js" defer></script>
 </head>
@@ -32,7 +32,7 @@
         <li><a href="../home/home.html">Home</a></li>
         <li><a href="../chatbot/chat.html" class="active">Calm Chat</a></li>
         <li><a href="../helpmind/helpmind.html">Help Mind</a></li>
-        <a href="https://accounts.spotify.com/authorize?client_id=bb0e0bc9ddff42b782eca5a6957f22f6&response_type=code&redirect_uri=https://soundmind.vercel.app/callback.html&scope=streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state playlist-modify-private playlist-modify-public">Login com Spotify</a>
+        <button id="spotifyLoginBtn">Login com Spotify</button>
       </ul>
     </nav>
   </header>
