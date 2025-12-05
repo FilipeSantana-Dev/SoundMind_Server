@@ -1,4 +1,4 @@
-const GOOGLE_MAPS_API_KEY = "AIzaSyA7JqjZb4lw2H3Cl3tfJMmVHvRr-RhtAVI";
+const GOOGLE_MAPS_API_KEY = "AIzaSyDi-8H1uAhFHz7NB2CZuWzxQvxbVXypUz4";
 
 let map;
 let service;
